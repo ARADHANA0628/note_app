@@ -1,38 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive/hive.dart';
-import 'package:note_app/screen/forgotscreen.dart';
-import 'package:note_app/screen/homescreen.dart';
-import 'package:note_app/screen/signupscreen.dart';
+import 'package:note_app/screen/Authentication/loginscreen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
 
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-void _login() {
+void _signUp() async {
+  String name = _nameController.text.trim();
   String email = _emailController.text.trim();
   String password = _passwordController.text.trim();
 
-  if (email.isEmpty || password.isEmpty) {
+  if (name.isEmpty || email.isEmpty || password.isEmpty) {
     ScaffoldMessenger.of(context).showSnackBar(
-       SnackBar(content: Text("Enter email & password")),
+       SnackBar(content: Text("Fill all fields")),
     );
     return;
   }
-   Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (_) =>  Homescreen()),
-    );
 
-
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (_) =>  LoginScreen()),
+  );
 }
 
   @override
@@ -52,13 +50,13 @@ void _login() {
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 25),
+              padding:  EdgeInsets.symmetric(horizontal: 25),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
                   Text(
-                    "Welcome Back",
+                    "Create Account",
                     style: GoogleFonts.poppins(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
@@ -66,17 +64,32 @@ void _login() {
                     ),
                   ),
 
-                  SizedBox(height: 10),
+                SizedBox(height: 10),
 
                   Text(
-                    "Login to continue",
+                    "Sign up to get started",
                     style: GoogleFonts.poppins(
                       fontSize: 16,
                       color: Colors.white70,
                     ),
                   ),
 
-               SizedBox(height: 30),
+                 SizedBox(height: 30),
+
+                  TextField(
+                    controller: _nameController,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      labelText: "Full Name",
+                      prefixIcon:  Icon(Icons.person),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+
+         SizedBox(height: 20),
 
                   TextField(
                     controller: _emailController,
@@ -91,7 +104,7 @@ void _login() {
                     ),
                   ),
 
-              SizedBox(height: 20),
+                   SizedBox(height: 20),
 
                   TextField(
                     controller: _passwordController,
@@ -107,33 +120,13 @@ void _login() {
                     ),
                   ),
 
-   SizedBox(height: 10),
-
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>  ForgotPasswordScreen(),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        "Forgot Password?",
-                        style: GoogleFonts.poppins(color: Colors.white),
-                      ),
-                    ),
-                  ),
-
-                   SizedBox(height: 20),
+                   SizedBox(height: 30),
 
                   SizedBox(
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: _login, 
+                      onPressed: _signUp, // ✅ validation here
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -141,7 +134,7 @@ void _login() {
                         backgroundColor: Colors.black,
                       ),
                       child: Text(
-                        "Login",
+                        "Sign Up",
                         style: GoogleFonts.poppins(
                           fontSize: 18,
                           color: Colors.white,
@@ -150,34 +143,34 @@ void _login() {
                     ),
                   ),
 
-                  SizedBox(height: 20),
+                   SizedBox(height: 20),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Don't have an account? ",
+                        "Already have an account? ",
                         style: GoogleFonts.poppins(color: Colors.white),
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SignUpScreen(),
+                              builder: (context) =>  LoginScreen(),
                             ),
                           );
                         },
                         child: Text(
-                          "Sign Up",
+                          "Login",
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
                           ),
                         ),
-                      )
+                      ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive/hive.dart';
+
 import 'edit_note_screen.dart';
 
 class Homescreen extends StatefulWidget {
@@ -11,7 +11,7 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomescreenState extends State<Homescreen> {
-  late Box notesBox;
+  
   List<Map<String, String>> notes = [];
   List<Map<String, String>> filteredNotes = [];
   
@@ -29,10 +29,10 @@ class _HomescreenState extends State<Homescreen> {
 void initState() {
   super.initState();
 
-  notesBox = Hive.box('notesBox');
+
 
  
-  notes = notesBox.values.cast<Map>().map((e) => Map<String, String>.from(e)).toList();
+ 
   filteredNotes = notes;
 
   searchController.addListener(filterNotes);
@@ -109,7 +109,7 @@ void initState() {
       "category": tempCategory,
     };
 
-    notesBox.add(newNote); 
+
 
     setState(() {
       notes.add(newNote);
@@ -137,7 +137,7 @@ void initState() {
   final originalIndex = notes.indexOf(filteredNotes[index]);
 
   setState(() {
-    notesBox.deleteAt(originalIndex); // Delete from Hive
+   
     notes.removeAt(originalIndex);
     filterNotes();
   });
